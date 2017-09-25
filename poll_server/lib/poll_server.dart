@@ -35,26 +35,25 @@ Future configureServer(Angel app) async {
   // will be served from http://localhost:8080
   app.use(cors());
 
-  // We want to serve static assets from a directory within ../poll_web.
-  //
-  // In development, serve from ../poll_web/web.
-  // In production, however, we want to serve pre-built assets from: ../poll_web/build/web
-  var webAppDir = fileSystem.directory('../poll_web');
-  var publicDir = webAppDir.childDirectory(app.isProduction ? 'build/web' : 'web');
+  // In production, we want to serve static assets from ../poll_web/build/web.
+  if (app.isProduction) {
+    // A `CachingVirtualDirectory` serves static files, and it also sends
+    // `Cache-Control` headers.
+    var vDir = new CachingVirtualDirectory(
+      app,
+      fileSystem,
+      source: fileSystem.directory('../poll_web/build/web'),
+    );
 
-  // A `CachingVirtualDirectory` serves static files, and it also sends
-  // `Cache-Control` headers.
-  var vDir = new CachingVirtualDirectory(app, fileSystem, source: publicDir);
-  app.use(vDir.handleRequest);
+    app.use(vDir.handleRequest);
 
-  // TODO: Use `pushState` handler
-
-  // Redirect 404's to index.html
-  app.use((RequestContext req, ResponseContext res) {
-    // If the client doesn't want HTML, don't send the HTML file.
-    if (!req.accepts('text/html') || req.path.endsWith('.js')) return true;
-    return vDir.servePath('index.html', req, res);
-  });
+    // Redirect 404's to index.html (push-state)
+    app.use((RequestContext req, ResponseContext res) {
+      // If the client doesn't want HTML, don't send the HTML file.
+      if (!req.accepts('text/html') || req.path.endsWith('.js')) return true;
+      return vDir.servePath('index.html', req, res);
+    });
+  }
 
   // Throw a 404 if no route matched the requested path.
   app.use(() => throw new AngelHttpException.notFound());
