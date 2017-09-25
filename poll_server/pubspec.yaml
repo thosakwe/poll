@@ -1,0 +1,13 @@
+name: "poll_server"
+dependencies:
+  angel_configuration: ^1.1.0-alpha
+  angel_cors: ^1.0.0
+  angel_framework: "^1.1.0-alpha"
+  angel_model: "^1.0.0"
+  angel_mongo: "^1.0.0"
+  angel_proxy: "^1.1.0-alpha"
+  angel_serialize: "^1.0.0-alpha"
+  angel_static: "^1.3.0-alpha"
+  angel_websocket: "^1.1.0-alpha"
+  poll_common:
+    path: ../poll_common

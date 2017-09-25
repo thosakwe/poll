@@ -1,0 +1,30 @@
+<mdc-dialog #dialog showDefaultFooter>
+    <h2 header>Create a Poll</h2>
+    <form>
+        <div class="mdc-form-field">
+            <mdc-textfield [(ngModel)]="newPoll.title" hintText="Poll Title" required></mdc-textfield>
+        </div>
+        <br>
+        <div class="mdc-form-field">
+            <mdc-textfield [(ngModel)]="newPoll.description" hintText="Description" required></mdc-textfield>
+        </div>
+        <br>
+        <div *ngFor="let answer of newPoll.answers; let i = index;">
+            <div class="mdc-form-field">
+                <mdc-textfield (valueChange)="updateAnswer(i, $event)" [hintText]="computeAnswerHintText(i)"
+                               [value]="answer" required></mdc-textfield>
+                <mdc-icon *ngIf="newPoll.answers.length > 2" (click)="removeAnswer(i)" icon="delete"
+                          style="margin-top: 1em;"></mdc-icon>
+                <br>
+            </div>
+        </div>
+        <br>
+        <mdc-button (click)="addAnswer()" primary>
+            Add Answer
+        </mdc-button>
+    </form>
+</mdc-dialog>
+
+<mdc-fab (click)="dialog.show()">
+    <mdc-icon icon="add"></mdc-icon>
+</mdc-fab>

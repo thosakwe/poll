@@ -1,0 +1,20 @@
+name: poll_web
+dependencies:
+  angel_websocket: ^1.1.0-alpha
+  angular: ^4.0.0
+  angular_forms: ^1.0.0
+  angular_router: ^1.0.0
+  material_components_web:
+    git: https://github.com/mdc-dart/material_components_web.git
+  poll_common:
+    path: ../poll_common
+dev_dependencies:
+  browser: ^0.10.0
+  dart_to_js_script_rewriter: ^1.0.0
+dependency_overrides:
+  angular_forms: ^1.0.0
+transformers:
+  - dart_to_js_script_rewriter
+  - angular:
+      entry_points:
+        - web/main.dart

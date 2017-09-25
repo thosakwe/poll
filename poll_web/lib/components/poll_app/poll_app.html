@@ -1,0 +1,20 @@
+<mdc-drawer #drawer>
+    <span header>Polls</span>
+    <div class="mdc-list-group">
+        <mdc-list-item href="https://github.com/angel-example/poll" target="_blank">
+            <mdc-list-item-detail icon="launch"></mdc-list-item-detail>
+            Fork on Github
+        </mdc-list-item>
+    </div>
+</mdc-drawer>
+
+<mdc-toolbar fixed>
+    <mdc-toolbar-section alignStart>
+        <mdc-icon (click)="drawer.show()" icon="menu" menuIcon></mdc-icon>
+        <div class="mdc-toolbar__title">Polls</div>
+    </mdc-toolbar-section>
+</mdc-toolbar>
+
+<main class="mdc-toolbar-fixed-adjust" style="padding: 1em;">
+    <router-outlet></router-outlet>
+</main>
